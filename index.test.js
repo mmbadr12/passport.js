@@ -1,27 +1,27 @@
-/**
- * test app 
- */
-const request = require('supertest');
-const router = require('./routers/passport');
+// /**
+//  * test app 
+//  */
+// const request = require('supertest');
+// const router = require('./routers/passport');
 
-// >>> test post router
-describe('muset fiell all' , ()=>{
+// // >>> test post router
+// describe('muset fiell all' , ()=>{
 
-   test("email and all info", ()=>{
+//    test("email and all info", ()=>{
 
-   return request(router)
-    .get('/auth/google')
-    .then(response=>{
+//    return request(router)
+//     .get('/auth/google')
+//     .then(response=>{
 
-       expect(response.statusCode)
-        .toBe(200);
-        done()     
-    })
+//        expect(response.statusCode)
+//         .toBe(200);
+//         done()     
+//     })
 
 
-  })
+//   })
 
-});
+//});
 
 
 

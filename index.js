@@ -1,17 +1,16 @@
-/**
+/**                   --> comment Important tddoo <--
  * 
- * npm install --save-dev babel-cli babel-preset-env jest supertest superagent
- * for dawonloads all library for testing
- * use dotenv for enverment
- * npm install or npm i
- * npm run start or npm start
+ * --> npm install --save-dev babel-cli babel-preset-env jest supertest superagent --> for test 
+ * --> moust add page .env it's very Important TDDOO that's all keys ther...
+ * --> for dawonloads all library for testing
+ * --> use dotenv for enverment
+ * --> npm install or npm i
+ * --> npm run start or npm start
  * 
  */
-if(process.env.NODE_ENV === 'development'){
 
+ // --> this library is very Important for -> SECRET KEYS <-
   require('dotenv').config();
-
-};
 
 const express = require('express');
 const bodyParse = require('body-parser');
@@ -27,11 +26,11 @@ const keys = require('./keys/key');
 
 const app = express();
 
-// ---> router path for index page and passport rejester
+// --> router path for index page and passport rejester
 const indexRoutere = require('./routers/index');
 const passportRouter = require('./routers/passport');
 
-// ---> views setup end use fromwork engine ejs
+// --> views setup end use fromwork engine ejs
 app.set('views' , path.join(__dirname , 'views'));
 app.set('view engine' , 'ejs');
 
@@ -40,7 +39,7 @@ app.use(bodyParse.json());
 app.use(bodyParse.urlencoded({extended: false}));
 app.use(cookieParser());
 
-// ---> setup public for css & javascrept & images <--file 
+// --> setup public for css & javascrept & images <--file 
 app.use(express.static(path.join(__dirname , 'public'))); 
 // app.use(session({
 //   secret:'milan ',
@@ -51,12 +50,14 @@ app.use(express.static(path.join(__dirname , 'public')));
 
 // ---> cookie session setup
 app.use(cookieSession({
-  secret:'milan ',
+  secret:process.env.SECRET_SESSION,
+  keys:process.env.KEY_SESSION,
+  maxAge: process.env.MAXAGE,
   resave:true,
   saveUninitialized:true,
-  maxAge: 24*60*60*1000,
-  keys:[keys.session.cookieKey]
+  name: 'milan',
 }));
+
 // ---> setup flash for alert message
 app.use(flash());
 
@@ -64,17 +65,23 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./passport/authenticate.js');
+require('./passport/authenticate.js')
 
 // ---> path index and passport page: 
 app.use('/' , indexRoutere);
-app.use('/google' , passportRouter);
+app.use('/' , passportRouter);
 
 
 
 // ---> app listen with port enviroment:
 const PORT  = process.env.PORT || 7000;
-app.listen(PORT, ()=> console.log(`>-- conect --> http://localhost:${PORT}`));
+app.listen(PORT, ()=>{
+  
+  console.log(`>-- conect index page --> http://localhost:${PORT}`);
+
+  console.log(`>-- rejester page --> http://localhost:${PORT}/rejester`);
+
+});
 
 module.exports = app;
 
