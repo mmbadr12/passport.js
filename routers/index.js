@@ -31,8 +31,9 @@ router.post('/register' ,valid, async(req,res) => {
   const errors = await validationResult(req)
   if( !errors.isEmpty()){
 
-      res.redirect('/register');
+      
       req.flash('errors',errors.array());
+     res.redirect('/register');
 
       console.log('ok');
   
